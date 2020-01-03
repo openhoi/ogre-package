@@ -109,6 +109,13 @@ fi
 
 
 
+# Sync submodules
+git submodule sync
+git submodule update --init --recursive --remote
+
+
+
+
 # Link imgui sources with OGRE Overlay
 rm -rf ogre/Components/Overlay/src/imgui
 ln -s imgui ogre/Components/Overlay/src/imgui

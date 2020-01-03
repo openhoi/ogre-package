@@ -3,4 +3,4 @@
 	url = https://github.com/OGRECave/ogre
 [submodule "imgui"]
 	path = imgui
-	url = https://github.com/ocornut/imgui
+	url = https://github.com/openhoi/imgui
