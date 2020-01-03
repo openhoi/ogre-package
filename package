@@ -109,35 +109,44 @@ fi
 
 
 
+printf "$LINEBEG Cleanup and preparation...\n"
+
+if [ -d build ]; then
+    # Reset OGRE Overlay code
+    rm -R ogre/Components/Overlay/src/imgui
+    git -C ogre reset --hard
+fi
+
 # Sync submodules
 git submodule sync
 git submodule update --init --recursive --remote
-
-
-
 
 # Link imgui sources with OGRE Overlay
 rm -rf ogre/Components/Overlay/src/imgui
 ln -s imgui ogre/Components/Overlay/src/imgui
 
+printf " $CHECKMARK Finished!\n"
 
 
 
 
-if [ ! "$BUILD_ONLY" = "y" ]
-    # Create Debian package
-    if [ -d build ]; then rm -rf build; fi
-    mkdir build
-    cd build
-    cmake ../cmake/
+
+# Compile OGRE
+if [ -d build ]; then rm -rf build; fi
+mkdir build
+cd build
+cmake -DOGRE_BUILD_TESTS=OFF -DOGRE_BUILD_SAMPLES=OFF -DOGRE_INSTALL_SAMPLES=OFF -DOGRE_BUILD_TOOLS=OFF -DOGRE_INSTALL_TOOLS=OFF -DOGRE_INSTALL_DOCS=OFF -DOGRE_CONFIG_DOUBLE=OFF -DOGRE_CONFIG_ENABLE_DDS=ON -DOGRE_CONFIG_ENABLE_ETC=OFF -DOGRE_CONFIG_ENABLE_ZIP=OFF -DOGRE_CONFIG_ENABLE_ETC=OFF -DOGRE_BUILD_COMPONENT_PYTHON=OFF -DOGRE_BUILD_PLUGIN_BSP=OFF -DOGRE_BUILD_PLUGIN_OCTREE=OFF -DOGRE_BUILD_PLUGIN_PCZ=OFF -DOGRE_BUILD_PLUGIN_PFX=ON -DOGRE_BUILD_PLUGIN_DOT_SCENE=OFF -DOGRE_BUILD_COMPONENT_PAGING=OFF -DOGRE_BUILD_COMPONENT_TERRAIN=OFF -DOGRE_BUILD_COMPONENT_MESHLODGENERATOR=OFF -DOGRE_BUILD_COMPONENT_VOLUME=OFF -DOGRE_BUILD_COMPONENT_BITES=OFF -DOGRE_BUILD_RENDERSYSTEM_GL=ON -DOGRE_STATIC=OFF -DOGRE_BUILD_COMPONENT_OVERLAY_IMGUI=ON -DOpenGL_GL_PREFERENCE=LEGACY -DOGRE_BUILD_DEPENDENCIES=OFF -DCMAKE_BUILD_TYPE=Release ../cmake/
+if [ "$BUILD_ONLY" = "y" ]; then
+    make
+    sudo make install
+else
     make package
-    cd ..
-fi;
+fi
 
 
 
 
 # Reset OGRE Overlay code
-m -R Components/Overlay/src/imgui
+rm -R ogre/Components/Overlay/src/imgui
 git -C ogre reset --hard
 
