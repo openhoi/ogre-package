@@ -43,6 +43,12 @@ fi
 
 
 
+# Then, check, if we shall only do the build
+BUILD_ONLY=$1
+
+
+
+
 # Then, check for the current OS type and define build/packaging dependencies
 printf "$LINEBEG Checking for operating system type...\n"
 
@@ -75,11 +81,11 @@ if [ $OSTYPE == "linux-gnu" ]; then
         INSTALLSYSTEM=${INSTALLSYSTEMS[$APTGET]}
         PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian perl libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev zlib1g-dev"
     else
-        printf " $CROSSMARK Your distribution '$DISTRO' is not supported. Aborting."
+        printf " $CROSSMARK Your distribution '$DISTRO' is not supported. Aborting.\n"
         exit 1 
     fi
 else
-    printf " $CROSSMARK Your OS '$OSTYPE' is not supported. Aborting. \e[91mYou may have to install all dependencies manually.\e[0m\n"
+    printf " $CROSSMARK Your OS '$OSTYPE' is not supported. Aborting.\n"
     exit 1 
 fi
 
@@ -103,11 +109,26 @@ fi
 
 
 
-# Package OGRE
-# Create Debian package
-if [ -d build ]; then rm -rf build; fi
-mkdir build
-cd build
-cmake ../cmake/
-make package
-cd ..
+# Link imgui sources with OGRE Overlay
+rm -rf ogre/Components/Overlay/src/imgui
+ln -s imgui ogre/Components/Overlay/src/imgui
+
+
+
+
+
+if [ ! "$BUILD_ONLY" = "y" ]
+    # Create Debian package
+    if [ -d build ]; then rm -rf build; fi
+    mkdir build
+    cd build
+    cmake ../cmake/
+    make package
+    cd ..
+fi;
+
+
+
+
+# Reset OGRE Overlay code
+git -C ogre reset --hard
