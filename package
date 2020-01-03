@@ -138,4 +138,6 @@ fi;
 
 
 # Reset OGRE Overlay code
+m -R Components/Overlay/src/imgui
 git -C ogre reset --hard
+
