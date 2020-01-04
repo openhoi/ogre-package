@@ -160,12 +160,11 @@ if [ -d build ]; then
     # Reset OGRE Overlay code
     rm -R ogre/Components/Overlay/src/imgui
 fi
-git -C ogre reset --hard
-git -C ogre checkout $OGRE_TAG
 
 # Sync submodules
 git submodule sync
 git submodule update --init --recursive --remote
+git -C ogre reset --hard $OGRE_TAG
 
 # Link imgui sources with OGRE Overlay
 rm -rf ogre/Components/Overlay/src/imgui
@@ -201,5 +200,4 @@ cd ..
 printf "$LINEBEG Cleanup...\n"
 
 rm -R ogre/Components/Overlay/src/imgui
-git -C ogre reset --hard
-git -C ogre checkout $OGRE_TAG
+git -C ogre reset --hard $OGRE_TAG
