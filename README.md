@@ -3,7 +3,7 @@
 ## Contents
 
 This repository holds scripts to prebuild OGRE for our *NIX builds.
-Currently, the following OS's are supported:
+Whilst the script allows us to build for all openhoi-supported *NIX OS's, the binary packaging is only available for:
 
 * Linux
   * Debian
