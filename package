@@ -162,9 +162,7 @@ if [ -d build ]; then
 fi
 
 # Sync submodules
-git submodule sync
 git submodule update --init --recursive --remote
-git -C ogre reset --hard $OGRE_TAG
 
 # Link imgui sources with OGRE Overlay
 rm -rf ogre/Components/Overlay/src/imgui

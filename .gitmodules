@@ -1,6 +1,8 @@
 [submodule "ogre"]
 	path = ogre
 	url = https://github.com/OGRECave/ogre
+	ignore = dirty
 [submodule "imgui"]
 	path = imgui
-	url = https://github.com/openhoi/imgui
+	url = https://github.com/ocornut/imgui
+	ignore = dirty
