@@ -52,7 +52,7 @@ BUILD_ONLY=$1
 # Then, check for the current OS type and define build/packaging dependencies
 printf "$LINEBEG Checking for operating system type...\n"
 
-INSTALLSYSTEMS=(APTGET)
+INSTALLSYSTEMS=(PACMAN APTGET HOMEBREW PKG)
 isa=${#INSTALLSYSTEMS[@]}
 for ((i=0; i < $isa; i++)); do
     ISE_NAME=${INSTALLSYSTEMS[i]}
@@ -70,7 +70,12 @@ if [ $OSTYPE == "linux-gnu" ]; then
         DISTRO=$(lsb_release -is)
     fi
     DISTRO=${DISTRO,,} # Make distro name lower-case
-    if [ $DISTRO == "debian" ] || [ $DISTRO == "ubuntu" ]; then
+    if [[ $DISTRO == "arch" ]]; then
+        printf " $CHECKMARK Arch Linux is supported. Using \e[1mpacman\e[0m install system...\n"
+
+        INSTALLSYSTEM=${INSTALLSYSTEMS[$PACMAN]}
+        PACKAGES="base-devel git cmake boost zlib sdl2"
+    elif [ $DISTRO == "debian" ] || [ $DISTRO == "ubuntu" ]; then
         if [ $DISTRO == "ubuntu" ]; then
             printf " $CHECKMARK Ubuntu is supported. Using \e[1mapt-get\e[0m install system...\n"
         else
@@ -79,11 +84,16 @@ if [ $OSTYPE == "linux-gnu" ]; then
 
         #CODENAME=`lsb_release --codename | cut -f2`
         INSTALLSYSTEM=${INSTALLSYSTEMS[$APTGET]}
-        PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian perl libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev zlib1g-dev"
+        PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev zlib1g-dev libboost-all-dev "
     else
         printf " $CROSSMARK Your distribution '$DISTRO' is not supported. Aborting.\n"
         exit 1 
     fi
+elif [[ $MACOS == true ]]; then
+    printf " $CHECKMARK macOS is supported.\n"
+    
+    INSTALLSYSTEM=${INSTALLSYSTEMS[$HOMEBREW]}
+    PACKAGES=(cmake boost zlib freeimage freetype sdl2)
 else
     printf " $CROSSMARK Your OS '$OSTYPE' is not supported. Aborting.\n"
     exit 1 
@@ -96,11 +106,42 @@ fi
 if [ $INSTALLSYSTEM ]; then
     printf "$LINEBEG Installing required packages...\n"
 
-    if [ $INSTALLSYSTEM == ${INSTALLSYSTEMS[$APTGET]} ]; then
+    if [ $INSTALLSYSTEM == ${INSTALLSYSTEMS[$PACMAN]} ]; then
+        sudo pacman -Syu --noconfirm
+        sudo pacman -S $PACKAGES --noconfirm --needed
+
+        if [ $AUR_PACKAGES ]; then
+            mkdir --parents build/pacman_aur
+            for i in "${AUR_PACKAGES[@]}"
+            do
+                if [ ! -d "tmp/$i" ]; then
+                    git clone https://aur.archlinux.org/$i.git build/pacman_aur/$i
+                else
+                    git -C build/pacman_aur/$i pull
+                fi
+                pushd build/pacman_aur/$i
+                rm *.pkg.tar.xz
+                makepkg -Acs --noconfirm --needed
+                popd >/dev/null
+                sudo pacman -U $(ls build/pacman_aur/$i/*.pkg.tar.xz | head -1) --noconfirm
+            done
+        fi
+    elif [ $INSTALLSYSTEM == ${INSTALLSYSTEMS[$APTGET]} ]; then
         sudo apt-get update -qy
         sudo apt-get upgrade -qy
-        sudo apt-get install -qy  --no-install-recommends $PACKAGES
+        sudo apt-get install -qy --no-install-recommends $PACKAGES
 	    sudo apt-get clean
+    elif [ $INSTALLSYSTEM == ${INSTALLSYSTEMS[$PKG]} ]; then
+        sudo freebsd-update fetch --not-running-from-cron
+        sudo freebsd-update install --not-running-from-cron
+        env ASSUME_ALWAYS_YES=YES pkg bootstrap
+        sudo pkg -N install $PACKAGES
+    elif [ $INSTALLSYSTEM == ${INSTALLSYSTEMS[$HOMEBREW]} ]; then
+        command -v brew >/dev/null 2>&1 || { /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"; }
+        for i in "${PACKAGES[@]}"
+        do
+            brew ls --versions $i && brew upgrade $i || brew install $i
+        done
     fi
 
     printf " $CHECKMARK Finished! Please check the above command line output in order to verify that everything was okay.\n"
@@ -109,13 +150,18 @@ fi
 
 
 
+# Cleanup and preparations
 printf "$LINEBEG Cleanup and preparation...\n"
+
+source version
+OGRE_TAG=v$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH
 
 if [ -d build ]; then
     # Reset OGRE Overlay code
     rm -R ogre/Components/Overlay/src/imgui
-    git -C ogre reset --hard
 fi
+git -C ogre reset --hard
+git -C ogre checkout $OGRE_TAG
 
 # Sync submodules
 git submodule sync
@@ -125,28 +171,35 @@ git submodule update --init --recursive --remote
 rm -rf ogre/Components/Overlay/src/imgui
 ln -s imgui ogre/Components/Overlay/src/imgui
 
-printf " $CHECKMARK Finished!\n"
-
-
 
 
 
 # Compile OGRE
+printf "$LINEBEG Compiling OGRE...\n"
+
 if [ -d build ]; then rm -rf build; fi
 mkdir build
 cd build
-cmake -DOGRE_BUILD_TESTS=OFF -DOGRE_BUILD_SAMPLES=OFF -DOGRE_INSTALL_SAMPLES=OFF -DOGRE_BUILD_TOOLS=OFF -DOGRE_INSTALL_TOOLS=OFF -DOGRE_INSTALL_DOCS=OFF -DOGRE_CONFIG_DOUBLE=OFF -DOGRE_CONFIG_ENABLE_DDS=ON -DOGRE_CONFIG_ENABLE_ETC=OFF -DOGRE_CONFIG_ENABLE_ZIP=OFF -DOGRE_CONFIG_ENABLE_ETC=OFF -DOGRE_BUILD_COMPONENT_PYTHON=OFF -DOGRE_BUILD_PLUGIN_BSP=OFF -DOGRE_BUILD_PLUGIN_OCTREE=OFF -DOGRE_BUILD_PLUGIN_PCZ=OFF -DOGRE_BUILD_PLUGIN_PFX=ON -DOGRE_BUILD_PLUGIN_DOT_SCENE=OFF -DOGRE_BUILD_COMPONENT_PAGING=OFF -DOGRE_BUILD_COMPONENT_TERRAIN=OFF -DOGRE_BUILD_COMPONENT_MESHLODGENERATOR=OFF -DOGRE_BUILD_COMPONENT_VOLUME=OFF -DOGRE_BUILD_COMPONENT_BITES=OFF -DOGRE_BUILD_RENDERSYSTEM_GL=ON -DOGRE_STATIC=OFF -DOGRE_BUILD_COMPONENT_OVERLAY_IMGUI=ON -DOpenGL_GL_PREFERENCE=LEGACY -DOGRE_BUILD_DEPENDENCIES=OFF -DCMAKE_BUILD_TYPE=Release ../cmake/
+cmake -DOGRE_BUILD_TESTS=OFF -DOGRE_BUILD_SAMPLES=OFF -DOGRE_INSTALL_SAMPLES=OFF -DOGRE_BUILD_TOOLS=OFF -DOGRE_INSTALL_TOOLS=OFF -DOGRE_INSTALL_DOCS=OFF \
+      -DOGRE_CONFIG_DOUBLE=OFF -DOGRE_CONFIG_ENABLE_DDS=ON -DOGRE_CONFIG_ENABLE_ETC=OFF -DOGRE_CONFIG_ENABLE_ZIP=OFF -DOGRE_CONFIG_ENABLE_ETC=OFF \
+      -DOGRE_BUILD_COMPONENT_PYTHON=OFF -DOGRE_BUILD_PLUGIN_BSP=OFF -DOGRE_BUILD_PLUGIN_OCTREE=OFF -DOGRE_BUILD_PLUGIN_PCZ=OFF -DOGRE_BUILD_PLUGIN_PFX=ON \
+      -DOGRE_BUILD_PLUGIN_DOT_SCENE=OFF -DOGRE_BUILD_COMPONENT_PAGING=OFF -DOGRE_BUILD_COMPONENT_TERRAIN=OFF -DOGRE_BUILD_COMPONENT_MESHLODGENERATOR=OFF \
+      -DOGRE_BUILD_COMPONENT_VOLUME=OFF -DOGRE_BUILD_COMPONENT_BITES=OFF -DOGRE_BUILD_RENDERSYSTEM_GL=ON -DOGRE_STATIC=OFF -DOGRE_BUILD_COMPONENT_OVERLAY_IMGUI=ON \
+      -DOpenGL_GL_PREFERENCE=LEGACY -DOGRE_BUILD_DEPENDENCIES=OFF -DCMAKE_BUILD_TYPE=Release ../cmake/
 if [ "$BUILD_ONLY" = "y" ]; then
     make
     sudo make install
 else
     make package
 fi
+cd ..
 
 
 
 
 # Reset OGRE Overlay code
+printf "$LINEBEG Cleanup...\n"
+
 rm -R ogre/Components/Overlay/src/imgui
 git -C ogre reset --hard
-
+git -C ogre checkout $OGRE_TAG
