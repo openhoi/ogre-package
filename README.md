@@ -39,7 +39,7 @@ We also link to our fork of *ImGui* (https://github.com/openhoi/imgui; Original 
 
 >The MIT License (MIT)
 >
->Copyright (c) 2014-2019 Omar Cornut
+>Copyright (c) 2014-2020 Omar Cornut
 >
 >Permission is hereby granted, free of charge, to any person obtaining a copy
 >of this software and associated documentation files (the "Software"), to deal
