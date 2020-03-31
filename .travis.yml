@@ -22,4 +22,5 @@ deploy:
   bucket: openhoi
   local_dir: build/package
   upload-dir: dependencies/ogre-package
+  acl: public_read
   skip_cleanup: true
