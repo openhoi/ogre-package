@@ -25,3 +25,5 @@ deploy:
   acl: public_read
   region: eu-central-1
   skip_cleanup: true
+  on:
+    all_branches: true
