@@ -1,0 +1,14 @@
+language: cpp
+sudo: required
+matrix:
+  include:
+    - name: Ubuntu Bionic LTS Clang 7
+      os: linux
+      dist: bionic
+      compiler: clang
+script:
+  - source package n
+before_script:
+  - chmod +x package
+notifications:
+  email: false
