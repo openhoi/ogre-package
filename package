@@ -189,6 +189,14 @@ if [ "$BUILD_ONLY" = "y" ]; then
 else
     make package
 fi
+
+
+
+
+# Copy package files to new directory
+if [ -d package ]; then rm -rf package; fi
+mkdir package
+cp *.deb package
 cd ..
 
 
