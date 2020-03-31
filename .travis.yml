@@ -23,4 +23,5 @@ deploy:
   local_dir: build/package
   upload-dir: dependencies/ogre-package
   acl: public_read
+  region: eu-central-1
   skip_cleanup: true
