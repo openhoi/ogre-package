@@ -12,3 +12,6 @@ before_script:
   - chmod +x package
 notifications:
   email: false
+branches:
+  only:
+    - /^v.*$/
