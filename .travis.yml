@@ -21,7 +21,7 @@ deploy:
   secret_access_key: $AWS_SECRET_KEY
   bucket: dependencies.openhoi.net
   local_dir: build/package
-  upload-dir: ogre-package
+  upload-dir: ogre
   acl: public_read
   region: eu-central-1
   skip_cleanup: true
