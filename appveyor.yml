@@ -26,4 +26,6 @@ deploy:
   bucket: dependencies.openhoi.net
   region: eu-central-1
   set_public: true
-  folder: build/package
+  folder: ogre
+  artifacts:
+    - path: build/package/*.7z
