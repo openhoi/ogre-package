@@ -151,7 +151,7 @@ fi
 
 
 # Cleanup and preparations
-printf "$LINEBEG Cleanup and preparation...\n"
+printf "$LINEBEG Cleanup and preparations...\n"
 
 source version
 OGRE_TAG=v$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH

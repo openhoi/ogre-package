@@ -1,0 +1,29 @@
+shallow_clone: true
+image: Visual Studio 2017
+clone_depth: 3
+platform: x64
+install:
+  - mkdir C:\projects\deps
+  - cd C:\projects\deps
+  - appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.10.0/ninja-win.zip -FileName ninja.zip
+  - 7z x ninja.zip -oC:\projects\deps\ninja > nul
+  - set PATH=C:\projects\deps\ninja;%PATH%
+  - ninja --version
+before_build:
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64
+  - cd C:\projects\ogre-package
+build_script:
+  - package
+notifications:
+  - provider: Email 
+    on_build_success: false 
+    on_build_failure: false 
+    on_build_status_changed: false
+deploy:
+  provider: S3
+  access_key_id: %AWS_ACCESS_KEY_ID%
+  secret_access_key: %AWS_SECRET_KEY%
+  bucket: dependencies.openhoi.net
+  region: eu-central-1
+  set_public: true
+  folder: build/package
