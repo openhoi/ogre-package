@@ -1,4 +1,7 @@
 shallow_clone: false
+branches:
+  only:
+    - /v.*/
 image: Visual Studio 2017
 clone_depth: 3
 platform: x64
