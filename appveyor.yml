@@ -1,4 +1,4 @@
-shallow_clone: true
+shallow_clone: false
 image: Visual Studio 2017
 clone_depth: 3
 platform: x64
