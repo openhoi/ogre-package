@@ -161,6 +161,8 @@ if [ -d build ]; then
     rm -R ogre/Components/Overlay/src/imgui
 fi
 
+git -C ogre reset --hard $OGRE_TAG
+
 # Sync submodules
 git submodule update --init --recursive --remote
 

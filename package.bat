@@ -159,14 +159,9 @@ if not "%BUILD_ONLY%" == "y" (
 echo %LINEBEG% Compiling OGRE...
 set OGRE_VERSION=%VERSION_MAJOR%.%VERSION_MINOR%.%VERSION_PATCH%
 set OGRE_TAG=v%OGRE_VERSION%
-if not exist thirdparty\ogre3d (
-		git clone https://github.com/OGRECave/ogre --branch %OGRE_TAG% thirdparty\ogre3d
-) else (
-		git -C thirdparty\ogre3d reset --hard
-		git -C thirdparty\ogre3d fetch
-		git -C thirdparty\ogre3d checkout %OGRE_TAG%
-		git -C thirdparty\ogre3d pull
-)
+
+git -C ogre reset --hard %OGRE_TAG%
+
 cd thirdparty\ogre3d
 @rd /s /q Components\Overlay\src\imgui 2>nul
 mklink /D Components\Overlay\src\imgui %CWD%\imgui
