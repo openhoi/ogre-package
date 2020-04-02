@@ -204,7 +204,7 @@ robocopy "%CWD%\thirdparty\ogre3d\build\bin" "%CWD%\build\bin" Codec_STBI_d.pdb 
 cd %CWD%\build
 @rd /s /q package 2>nul
 mkdir package
-7z a -t7z -m0=lzma2 -mx=9 -aoa -mfb=64 -md=32m -ms=on -d=1024m package\ogre_%OGRE_VERSION%.7z .\* -r
+7z a -t7z -mx=9 -mfb=273 -ms -md=31 -myx=9 -mtm=- -mmt -mmtf -md=1536m -mmf=bt3 -mmc=10000 -mpb=0 -mlc=0 package\ogre_%OGRE_VERSION%.7z .\* -r
 cd %CWD%
 
 
