@@ -5,8 +5,7 @@
 This repository holds scripts to prebuild OGRE for our *NIX and Windows builds. Supported OS:
 
 * Linux x64
-  * Debian
-  * Ubuntu
+  * Ubuntu Bionic
 
 * Windows x64
   * Windows 10
