@@ -20,8 +20,7 @@ git:
 before_deploy:
   - git config --local user.name "openhoi robot"
   - git config --local user.email "robot@openhoi.net"
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-  - git tag $TRAVIS_TAG
+  - git tag ubuntu_${TRAVIS_DIST}_$TRAVIS_TAG
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY_ID
