@@ -40,3 +40,4 @@ deploy:
     skip_cleanup: true
     draft: true
     overwrite: true
+    body: Automatically built Ubuntu release of $OGRE_VERSION
