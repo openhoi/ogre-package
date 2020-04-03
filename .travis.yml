@@ -27,17 +27,24 @@ deploy:
     secret_access_key: $AWS_SECRET_KEY
     bucket: dependencies.openhoi.net
     local_dir: build/package
-    upload-dir: ogre
+    upload_dir: ogre
     acl: public_read
     region: eu-central-1
-    skip_cleanup: true
+    cleanup: false
+    overwrite: true
+    dot_match: false
     on:
       all_branches: true
+    edge: true
   - provider: releases
-    api_key: $GITHUB_OAUTH_TOKEN
+    token: $GITHUB_OAUTH_TOKEN
     file_glob: true
     file: build/package/*
-    skip_cleanup: true
-    draft: true
+    cleanup: false
+    draft: false
     overwrite: true
-    body: Automatically built Ubuntu $TRAVIS_DIST release of $OGRE_VERSION
+    tag_name: ubuntu_${TRAVIS_DIST}_$OGRE_VERSION
+    release_notes: Automatically built Ubuntu $TRAVIS_DIST release of $OGRE_VERSION
+    on:
+      all_branches: true
+    edge: true
