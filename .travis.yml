@@ -1,5 +1,5 @@
 language: cpp
-matrix:
+jobs:
   include:
     - name: Ubuntu Bionic LTS Clang 7
       os: linux
