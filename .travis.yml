@@ -21,9 +21,8 @@ before_deploy:
   - git config --local user.email "robot@openhoi.net"
   - if git rev-parse ubuntu_${TRAVIS_DIST}_$OGRE_VERSION >/dev/null 2>&1
     then
-      git tag -d ubuntu_${TRAVIS_DIST}_$OGRE_VERSION
+      git tag ubuntu_${TRAVIS_DIST}_$OGRE_VERSION
     fi
-  - git tag ubuntu_${TRAVIS_DIST}_$OGRE_VERSION
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY_ID
