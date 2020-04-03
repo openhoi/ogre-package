@@ -199,7 +199,7 @@ robocopy "%CWD%\ogre\build\bin" "%CWD%\build\bin" Codec_STBI_d.pdb Plugin_Partic
 cd %CWD%\build
 @rd /s /q package 2>nul
 mkdir package
-7z a -t7z -mx=9 -mfb=273 -ms -md=31 -myx=9 -mtm=- -mmt -mmtf -md=1536m -mmf=bt3 -mmc=10000 -mpb=0 -mlc=0 -bb3 package\ogre_msvc_%OGRE_VERSION%.7z .\* -r
+7z a -t7z -mx=9 -mfb=273 -ms -md=31 -myx=9 -mtm=- -mmt -mmtf -md=1536m -mmf=bt3 -mmc=10000 -mpb=0 -mlc=0 -bb3 %CWD%\build\package\ogre_msvc_%OGRE_VERSION%.7z .\* -r
 cd %CWD%
 
 
