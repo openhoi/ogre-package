@@ -199,7 +199,12 @@ fi
 # Copy package files to new directory
 if [ -d package ]; then rm -rf package; fi
 mkdir package
-cp *.deb package
+if [ $TRAVIS == "true" ]; then
+    BINARY_NAME=ogre_ubuntu_${TRAVIS_DIST}_$OGRE_VERSION.deb
+else
+    BINARY_NAME=ogre_$OGRE_VERSION.deb
+fi
+cp ogre_$OGRE_VERSION.deb package/$BINARY_NAME
 cd ..
 
 
