@@ -22,6 +22,9 @@ notifications:
     on_build_success: false 
     on_build_failure: false 
     on_build_status_changed: false
+artifacts:
+  - path: build/package/*.7z
+    name: MSVC
 deploy:
   - provider: S3
     access_key_id: "%AWS_ACCESS_KEY_ID%"
@@ -30,12 +33,12 @@ deploy:
     region: eu-central-1
     set_public: true
     folder: ogre
-    artifact: /build\\package\\ogre_msvc_.+\.7z/
+    artifact: MSVC
   - provider: GitHub
     description: Automatically built Windows release of %OGRE_VERSION%
     release: msvc_%OGRE_VERSION%
     auth_token: "%GITHUB_OAUTH_TOKEN%"
-    artifact: /build\\package\\ogre_msvc_.+\.7z/
+    artifact: MSVC
     draft: true
     force_update: true
     skip_tags: true
