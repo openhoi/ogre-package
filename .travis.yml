@@ -20,7 +20,7 @@ git:
 before_deploy:
   - git config --local user.name "openhoi robot"
   - git config --local user.email "robot@openhoi.net"
-  - git tag ubuntu_${TRAVIS_DIST}_$TRAVIS_TAG
+  - git tag ubuntu_${TRAVIS_DIST}_$OGRE_VERSION
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY_ID
