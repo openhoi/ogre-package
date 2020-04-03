@@ -31,6 +31,6 @@ deploy:
   set_public: true
   folder: ogre
   artifacts:
-    - path: '.\build\package\ogre_%OGRE_VERSION%.7z'
+    - path: ".\build\package\ogre_%OGRE_VERSION%.7z"
       name: ogre7z
   artifact: ogre7z
