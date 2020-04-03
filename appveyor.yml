@@ -35,7 +35,7 @@ deploy:
     description: Automatically built Windows release of %OGRE_VERSION%
     release: ogre_%OGRE_VERSION%
     auth_token:
-      secure: %GITHUB_OAUTH_TOKEN%
+      secure: "%GITHUB_OAUTH_TOKEN%"
     artifact: /build\\package\\ogre_.+\.7z/
     draft: true
     force_update: true
