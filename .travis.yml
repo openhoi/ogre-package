@@ -36,7 +36,8 @@ deploy:
       all_branches: true
   - provider: releases
     api_key: $GITHUB_OAUTH_TOKEN
-    file: build/package/ogre_ubuntu_${TRAVIS_DIST}_$OGRE_VERSION.deb
+    file_glob: true
+    file: build/package/*
     skip_cleanup: true
     draft: true
     overwrite: true
