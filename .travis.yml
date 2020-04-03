@@ -14,7 +14,7 @@ notifications:
   email: false
 branches:
   only:
-    - /^v.*$/
+    - /^v.+$/
 git:
   depth: 3
 deploy:
