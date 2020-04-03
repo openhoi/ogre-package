@@ -30,6 +30,4 @@ deploy:
   region: eu-central-1
   set_public: true
   folder: ogre
-  artifacts:
-    - path: build\package
-      name: *.7z
+  artifact: build\package\ogre_%OGRE_VERSION%.7z
