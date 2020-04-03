@@ -45,4 +45,4 @@ deploy:
     draft: false
     force_update: true
     skip_tags: true
-    tag: msvc_%OGRE_VERSION%
+    tag: msvc_%OGRE_VERSION%_%APPVEYOR_BUILD_ID%
