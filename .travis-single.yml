@@ -1,0 +1,51 @@
+language: cpp
+jobs:
+  include:
+    - name: Ubuntu Bionic LTS Clang 7
+      os: linux
+      dist: bionic
+      compiler: clang
+script:
+  - source package n
+before_script:
+  - chmod +x package
+notifications:
+  email: false
+branches:
+  only:
+    - /^v.+$/
+git:
+  depth: 3
+before_deploy:
+  - git config --local user.name "openhoi robot"
+  - git config --local user.email "robot@openhoi.net"
+  - if git rev-parse ubuntu_${TRAVIS_DIST}_$OGRE_VERSION >/dev/null 2>&1; then
+      git tag ubuntu_${TRAVIS_DIST}_$OGRE_VERSION;
+    fi
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: dependencies.openhoi.net
+    local_dir: build/package
+    upload_dir: ogre
+    acl: public_read
+    region: eu-central-1
+    cleanup: false
+    overwrite: true
+    dot_match: false
+    on:
+      all_branches: true
+    edge: true
+  - provider: releases
+    token: $GITHUB_OAUTH_TOKEN
+    file_glob: true
+    file: build/package/*
+    cleanup: false
+    draft: false
+    overwrite: true
+    tag_name: ubuntu_${TRAVIS_DIST}_$OGRE_VERSION
+    release_notes: Automatically built Ubuntu $TRAVIS_DIST release of $OGRE_VERSION
+    on:
+      all_branches: true
+    edge: true
