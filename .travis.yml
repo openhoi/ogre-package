@@ -18,14 +18,20 @@ branches:
 git:
   depth: 3
 deploy:
-  provider: s3
-  access_key_id: $AWS_ACCESS_KEY_ID
-  secret_access_key: $AWS_SECRET_KEY
-  bucket: dependencies.openhoi.net
-  local_dir: build/package
-  upload-dir: ogre
-  acl: public_read
-  region: eu-central-1
-  skip_cleanup: true
-  on:
-    all_branches: true
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: dependencies.openhoi.net
+    local_dir: build/package
+    upload-dir: ogre
+    acl: public_read
+    region: eu-central-1
+    skip_cleanup: true
+    on:
+      all_branches: true
+  - provider: releases
+    api_key: $GITHUB_OAUTH_TOKEN
+    file: build/package/ogre_$OGRE_VERSION.7z
+    skip_cleanup: true
+    draft: true
+    overwrite: true

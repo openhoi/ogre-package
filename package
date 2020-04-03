@@ -154,7 +154,8 @@ fi
 printf "$LINEBEG Cleanup and preparations...\n"
 
 source version
-OGRE_TAG=v$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH
+OGRE_VERSION=$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH
+OGRE_TAG=v$OGRE_VERSION
 
 if [ -d build ]; then
     # Reset OGRE Overlay code
