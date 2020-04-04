@@ -34,10 +34,14 @@ CWD=$PWD
 
 
 # At first, ensure that we are not root as some commands we execute are not recommended
-# to be called with root permissions
-if [[ $(id -u) -eq 0 ]]; then
-    printf " $CROSSMARK Please do not run this script with root permissions.\n"
-    exit;
+# to be called with root permissions. This check won't be performed in case we are inside Docker!
+if [ -f /.dockerenv ]; then
+    printf "$LINEBEG We are inside a Docker container.\n"
+else
+    if [[ $(id -u) -eq 0 ]]; then
+        printf " $CROSSMARK Please do not run this script with root permissions.\n"
+        exit;
+    fi
 fi
 
 
@@ -74,7 +78,7 @@ if [ $OSTYPE == "linux-gnu" ]; then
         printf " $CHECKMARK Arch Linux is supported. Using \e[1mpacman\e[0m install system...\n"
 
         INSTALLSYSTEM=${INSTALLSYSTEMS[$PACMAN]}
-        PACKAGES="base-devel git cmake boost zlib sdl2"
+        PACKAGES="base-devel git cmake zlib sdl2"
     elif [ $DISTRO == "debian" ] || [ $DISTRO == "ubuntu" ]; then
         if [ $DISTRO == "ubuntu" ]; then
             printf " $CHECKMARK Ubuntu is supported. Using \e[1mapt-get\e[0m install system...\n"
@@ -84,7 +88,7 @@ if [ $OSTYPE == "linux-gnu" ]; then
 
         #CODENAME=`lsb_release --codename | cut -f2`
         INSTALLSYSTEM=${INSTALLSYSTEMS[$APTGET]}
-        PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev zlib1g-dev libboost-all-dev "
+        PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev zlib1g-dev"
     else
         printf " $CROSSMARK Your distribution '$DISTRO' is not supported. Aborting.\n"
         exit 1 
@@ -93,7 +97,7 @@ elif [[ $MACOS == true ]]; then
     printf " $CHECKMARK macOS is supported.\n"
     
     INSTALLSYSTEM=${INSTALLSYSTEMS[$HOMEBREW]}
-    PACKAGES=(cmake boost zlib freeimage freetype sdl2)
+    PACKAGES=(cmake zlib freeimage freetype sdl2)
 else
     printf " $CROSSMARK Your OS '$OSTYPE' is not supported. Aborting.\n"
     exit 1 

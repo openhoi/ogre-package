@@ -1,0 +1,6 @@
+FROM ubuntu:DOCKER_VERSION
+COPY . /openhoi
+WORKDIR /openhoi
+RUN apt-get update && apt-get install -y lsb-release sudo && apt-get clean all
+RUN chmod +x package
+ENTRYPOINT ["./package"]

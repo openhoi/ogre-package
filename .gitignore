@@ -3,3 +3,4 @@ ogre/Components/Overlay/src/imgui/
 thirdparty/
 *.7z
 *.deb
+Dockerfile
