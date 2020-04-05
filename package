@@ -36,7 +36,7 @@ CWD=$PWD
 # At first, ensure that we are not root as some commands we execute are not recommended
 # to be called with root permissions. This check won't be performed in case we are inside Docker!
 if [ -f /.dockerenv ]; then
-    printf "$LINEBEG We are inside a Docker container.\n"
+    printf "$LINEBEG We are inside a Docker container!\n"
 else
     if [[ $(id -u) -eq 0 ]]; then
         printf " $CROSSMARK Please do not run this script with root permissions.\n"
