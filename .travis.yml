@@ -7,17 +7,18 @@ jobs:
       env:
         - DOCKER_DIST=ubuntu
         - DOCKER_DIST_VERSION=bionic
-        - DIST_ARCHIVE_TYPE=deb
     - name: Ubuntu Disco Dingo (19.04)
       env:
         - DOCKER_DIST=ubuntu
         - DOCKER_DIST_VERSION=disco
-        - DIST_ARCHIVE_TYPE=deb
     - name: Ubuntu Eoan Ermine (19.10)
       env:
         - DOCKER_DIST=ubuntu
         - DOCKER_DIST_VERSION=eoan
-        - DIST_ARCHIVE_TYPE=deb
+    - name: Ubuntu Focal Fossa (20.04)
+      env:
+        - DOCKER_DIST=ubuntu
+        - DOCKER_DIST_VERSION=focal
 notifications:
   email: false
 branches:
