@@ -40,9 +40,9 @@ install:
   # Build docker image
   - docker build -t $DOCKER_IMAGE_NAME .
   # Create package exchange directory
-  - mkdir package
+  - mkdir compiled
   # Run docker image
-  - docker run -v package:/openhoi-package $DOCKER_IMAGE_NAME
+  - docker run -v compiled:/openhoi-package $DOCKER_IMAGE_NAME
 #before_deploy:
 #  # Create tag for GitHub
 #  - git config --local user.name "openhoi robot"
@@ -55,7 +55,7 @@ deploy:
     access_key_id: $AWS_ACCESS_KEY_ID
     secret_access_key: $AWS_SECRET_KEY
     bucket: dependencies.openhoi.net
-    local_dir: package
+    local_dir: compiled
     upload_dir: ogre
     acl: public_read
     region: eu-central-1
@@ -68,7 +68,7 @@ deploy:
 #  - provider: releases
 #    token: $GITHUB_OAUTH_TOKEN
 #    file_glob: true
-#    file: package/*
+#    file: compiled/*
 #    cleanup: false
 #    draft: false
 #    overwrite: true
