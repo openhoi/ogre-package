@@ -46,7 +46,7 @@ install:
 before_deploy:
   # Copy file from container to host
   - mkdir package
-  - docker cp $DOCKER_IMAGE_NAME:/openhoi/build/ogre_$OGRE_VERSION.$DIST_ARCHIVE_TYPE package/ogre_${OGRE_VERSION}_${DOCKER_DIST}_${DOCKER_DIST_VERSION}.$DIST_ARCHIVE_TYPE
+  - docker cp $DOCKER_IMAGE_NAME:/openhoi/build/ogre_$OGRE_VERSION.$DIST_ARCHIVE_TYPE package/ogre_${DOCKER_DIST}_${DOCKER_DIST_VERSION}_${OGRE_VERSION}.$DIST_ARCHIVE_TYPE
   # Create tag for GitHub
 #  - git config --local user.name "openhoi robot"
 #  - git config --local user.email "robot@openhoi.net"
