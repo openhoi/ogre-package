@@ -25,9 +25,9 @@ notifications:
 artifacts:
   - path: ogre_msvc_%OGRE_VERSION%.7z
     name: MSVC
-before_deploy:
-  - ps: Remove-Item *.7z
-  - ps: Copy-Item build/package/*.7z -Destination .
+#before_deploy:
+#  - ps: Remove-Item *.7z
+#  - ps: Copy-Item build/package/*.7z -Destination .
 deploy:
   - provider: S3
     access_key_id: "%AWS_ACCESS_KEY_ID%"
