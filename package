@@ -36,6 +36,7 @@ CWD=$PWD
 # At first, ensure that we are not root as some commands we execute are not recommended
 # to be called with root permissions. This check won't be performed in case we are inside Docker!
 if [ -f /.dockerenv ]; then
+		DOCKER="true"
     printf "$LINEBEG We are inside a Docker container!\n"
 else
     if [[ $(id -u) -eq 0 ]]; then
@@ -201,7 +202,7 @@ fi
 
 
 # Copy package files to new directory
-if [ "$TRAVIS" == "true" ]; then
+if [ "$DOCKER" == "true" ]; then
     BINARY_NAME=ogre_${DOCKER_DIST}_${DOCKER_DIST_VERSION}_$OGRE_VERSION.deb
 		BINARY_PATH=/openhoi-package/$BINARY_NAME
 else
