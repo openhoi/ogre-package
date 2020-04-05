@@ -42,7 +42,8 @@ install:
   # Run docker image
   - docker run $DOCKER_IMAGE_NAME
   # Get container ID
-  - DOCKER_CONTAINER_ID=$(docker inspect --format="{{.Id}}" ${DOCKER_IMAGE_NAME})
+  - DOCKER_CONTAINER_ID_FULL=$(docker inspect --format="{{.Id}}" ${DOCKER_IMAGE_NAME})
+  - DOCKER_CONTAINER_ID=${DOCKER_CONTAINER_ID_FULL:7}
   # Get version of built OGRE dependency
   - OGRE_VERSION=$(docker exec $DOCKER_CONTAINER_ID printenv OGRE_VERSION)
 before_deploy:
