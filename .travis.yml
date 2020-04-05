@@ -42,7 +42,7 @@ install:
   # Run docker image
   - docker run $DOCKER_IMAGE_NAME
   # Get version of built OGRE dependency
-  - OGRE_VERSION=$(docker exec container printenv OGRE_VERSION)
+  - OGRE_VERSION=$(docker exec $DOCKER_IMAGE_NAME printenv OGRE_VERSION)
 before_deploy:
   # Copy file from container to host
   - mkdir package
