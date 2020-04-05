@@ -45,7 +45,7 @@ install:
   # Run docker image
   - docker run -v compiled:/openhoi-package $DOCKER_IMAGE_NAME
 before_deploy:
-  - ls -lah /openhoi-package
+  - ls -lah compiled
 #  # Create tag for GitHub
 #  - git config --local user.name "openhoi robot"
 #  - git config --local user.email "robot@openhoi.net"
