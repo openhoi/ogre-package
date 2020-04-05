@@ -41,12 +41,14 @@ install:
   - docker build -t $DOCKER_IMAGE_NAME .
   # Run docker image
   - docker run $DOCKER_IMAGE_NAME
+  # Get container ID
+  - DOCKER_CONTAINER_ID=$(docker inspect --format="{{.Id}}" ${DOCKER_IMAGE_NAME})
   # Get version of built OGRE dependency
-  - OGRE_VERSION=$(docker exec $DOCKER_IMAGE_NAME printenv OGRE_VERSION)
+  - OGRE_VERSION=$(docker exec $DOCKER_CONTAINER_ID printenv OGRE_VERSION)
 before_deploy:
   # Copy file from container to host
   - mkdir package
-  - docker cp $DOCKER_IMAGE_NAME:/openhoi/build/ogre_$OGRE_VERSION.$DIST_ARCHIVE_TYPE package/ogre_${DOCKER_DIST}_${DOCKER_DIST_VERSION}_${OGRE_VERSION}.$DIST_ARCHIVE_TYPE
+  - docker cp $DOCKER_CONTAINER_ID:/openhoi/build/ogre_$OGRE_VERSION.$DIST_ARCHIVE_TYPE package/ogre_${DOCKER_DIST}_${DOCKER_DIST_VERSION}_${OGRE_VERSION}.$DIST_ARCHIVE_TYPE
   # Create tag for GitHub
 #  - git config --local user.name "openhoi robot"
 #  - git config --local user.email "robot@openhoi.net"
