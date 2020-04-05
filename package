@@ -201,7 +201,7 @@ fi
 
 
 # Copy package files to new directory
-if [[ $TRAVIS == "true" ]]; then
+if [ "$TRAVIS" == "true" ]; then
     BINARY_NAME=ogre_${DOCKER_DIST}_${DOCKER_DIST_VERSION}_$OGRE_VERSION.deb
 		BINARY_PATH=/openhoi-package/$BINARY_NAME
 else
