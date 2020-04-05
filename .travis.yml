@@ -7,14 +7,17 @@ jobs:
       env:
         - DOCKER_DIST=ubuntu
         - DOCKER_DIST_VERSION=bionic
+        - DIST_ARCHIVE_TYPE=deb
     - name: Ubuntu Disco Dingo (19.04)
       env:
         - DOCKER_DIST=ubuntu
         - DOCKER_DIST_VERSION=disco
+        - DIST_ARCHIVE_TYPE=deb
     - name: Ubuntu Eoan Ermine (19.10)
       env:
         - DOCKER_DIST=ubuntu
         - DOCKER_DIST_VERSION=eoan
+        - DIST_ARCHIVE_TYPE=deb
 notifications:
   email: false
 branches:
@@ -28,12 +31,54 @@ before_install:
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   - sudo apt-get update
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+install:
   # Specifiy docker image name
   - DOCKER_IMAGE_NAME=openhoi-ogre-package:${DOCKER_DIST}-${DOCKER_DIST_VERSION}
   # Get and update our desired Dockerfile
   - cp docker/${DOCKER_DIST} Dockerfile
   - sed -i "s/DOCKER_DIST_VERSION/$DOCKER_DIST_VERSION/g" Dockerfile
   # Build docker image
-  - sudo docker build -t $DOCKER_IMAGE_NAME .
+  - docker build -t $DOCKER_IMAGE_NAME .
   # Run docker image
   - docker run $DOCKER_IMAGE_NAME
+  # Get version of built OGRE dependency
+  - OGRE_VERSION=$(docker exec container printenv OGRE_VERSION)
+before_deploy:
+  # Copy file from container to host
+  - mkdir package
+  - docker cp $DOCKER_IMAGE_NAME:/openhoi/build/ogre_$OGRE_VERSION.$DIST_ARCHIVE_TYPE package
+  # Create tag for GitHub
+#  - git config --local user.name "openhoi robot"
+#  - git config --local user.email "robot@openhoi.net"
+#  - if git rev-parse ubuntu_${TRAVIS_DIST}_$OGRE_VERSION >/dev/null 2>&1; then
+#      git tag ubuntu_${TRAVIS_DIST}_$OGRE_VERSION;
+#    fi
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: dependencies.openhoi.net
+    local_dir: package
+    upload_dir: ogre
+    acl: public_read
+    region: eu-central-1
+    cleanup: false
+    overwrite: true
+    dot_match: false
+    on:
+      all_branches: true
+    edge: true
+#  - provider: releases
+#    token: $GITHUB_OAUTH_TOKEN
+#    file_glob: true
+#    file: package/*
+#    cleanup: false
+#    draft: false
+#    overwrite: true
+#    tag_name: ubuntu_${TRAVIS_DIST}_$OGRE_VERSION
+#    release_notes: Automatically built Ubuntu $TRAVIS_DIST release of $OGRE_VERSION
+#    on:
+#      all_branches: true
+#    edge: true
+
+ 
