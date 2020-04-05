@@ -15,7 +15,7 @@ jobs:
       env:
         - DOCKER_DIST=ubuntu
         - DOCKER_DIST_VERSION=eoan
-    - name: Ubuntu Focal Fossa (20.04)
+    - name: Ubuntu Focal Fossa (20.04 LTS)
       env:
         - DOCKER_DIST=ubuntu
         - DOCKER_DIST_VERSION=focal
@@ -44,7 +44,8 @@ install:
   - mkdir compiled
   # Run docker image
   - docker run -v compiled:/openhoi-package $DOCKER_IMAGE_NAME
-#before_deploy:
+before_deploy:
+  - ls -lah /openhoi-package
 #  # Create tag for GitHub
 #  - git config --local user.name "openhoi robot"
 #  - git config --local user.email "robot@openhoi.net"
