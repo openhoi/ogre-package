@@ -1,4 +1,4 @@
-FROM ubuntu:DOCKER_VERSION
+FROM ubuntu:DOCKER_DIST_VERSION
 COPY . /openhoi
 WORKDIR /openhoi
 RUN apt-get update && apt-get install -y lsb-release sudo && apt-get clean all

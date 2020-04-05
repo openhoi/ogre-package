@@ -6,19 +6,15 @@ jobs:
     - name: Ubuntu Bionic Beaver (18.04 LTS)
       env:
         - DOCKER_DIST=ubuntu
-        - DOCKER_VERSION=bionic
-    - name: Ubuntu Cosmic Cuttlefish (18.10)
-      env:
-        - DOCKER_DIST=ubuntu
-        - DOCKER_VERSION=cosmic
+        - DOCKER_DIST_VERSION=bionic
     - name: Ubuntu Disco Dingo (19.04)
       env:
         - DOCKER_DIST=ubuntu
-        - DOCKER_VERSION=disco
+        - DOCKER_DIST_VERSION=disco
     - name: Ubuntu Eoan Ermine (19.10)
       env:
         - DOCKER_DIST=ubuntu
-        - DOCKER_VERSION=eoan
+        - DOCKER_DIST_VERSION=eoan
 notifications:
   email: false
 branches:
@@ -27,13 +23,17 @@ branches:
 git:
   depth: 3
 before_install:
+  # Update Docker
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   - sudo apt-get update
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-  - DOCKER_IMAGE_NAME=openhoi-ogre-package:${DOCKER_DIST}-${DOCKER_VERSION}
+  # Specifiy docker image name
+  - DOCKER_IMAGE_NAME=openhoi-ogre-package:${DOCKER_DIST}-${DOCKER_DIST_VERSION}
+  # Get and update our desired Dockerfile
   - cp docker/${DOCKER_DIST} Dockerfile
-  - sed -i "s/DOCKER_VERSION/$DOCKER_VERSION/g" Dockerfile
+  - sed -i "s/DOCKER_DIST_VERSION/$DOCKER_DIST_VERSION/g" Dockerfile
+  # Build docker image
   - sudo docker build -t $DOCKER_IMAGE_NAME .
+  # Run docker image
   - docker run $DOCKER_IMAGE_NAME
-  
