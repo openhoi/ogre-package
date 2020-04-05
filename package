@@ -201,14 +201,16 @@ fi
 
 
 # Copy package files to new directory
-if [ -d package ]; then rm -rf package; fi
-mkdir package
 if [[ $TRAVIS == "true" ]]; then
-    BINARY_NAME=ogre_ubuntu_${TRAVIS_DIST}_$OGRE_VERSION.deb
+    BINARY_NAME=ogre_ubuntu_${DOCKER_DIST}_$OGRE_VERSION.deb
+		BINARY_PATH=/openhoi-package/$BINARY_NAME
 else
+		if [ -d package ]; then rm -rf package; fi
+		mkdir package
     BINARY_NAME=ogre_$OGRE_VERSION.deb
+		BINARY_PATH=package/$BINARY_NAME
 fi
-cp ogre_$OGRE_VERSION.deb package/$BINARY_NAME
+cp ogre_$OGRE_VERSION.deb $BINARY_PATH
 cd ..
 
 
