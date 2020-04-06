@@ -97,10 +97,10 @@ if [ $OSTYPE == "linux-gnu" ]; then
     elif [[ $DISTRO == "fedora" ]]; then
         printf " $CHECKMARK Fedora is supported. Using \e[1yum\e[0m install system...\n"
 
-        CODENAME=`lsb_release --codename | cut -f2`
+        VERSION=`lsb_release --release | cut -f2`
         INSTALLSYSTEM=${INSTALLSYSTEMS[$YUM]}
         PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev zlib1g-dev"
-        DIST_IDENTIFIER="${DISTRO}_$DISTRO_$CODENAME"
+        DIST_IDENTIFIER="${DISTRO}_$DISTRO_$VERSION"
 				PACKAGE_FILETYPE="rpm"
     else
         printf " $CROSSMARK Your distribution '$DISTRO' is not supported. Aborting.\n"
