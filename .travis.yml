@@ -3,6 +3,10 @@ dist: bionic
 language: minimal
 jobs:
   include:
+    - name: Debian Buster (10)
+      env:
+        - DOCKER_DIST=debian
+        - DOCKER_DIST_VERSION=buster
     - name: Ubuntu Bionic Beaver (18.04 LTS)
       env:
         - DOCKER_DIST=ubuntu

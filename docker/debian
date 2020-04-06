@@ -1,0 +1,23 @@
+FROM debian:DOCKER_DIST_VERSION
+
+# Go into non-interactive mode
+#ARG DEBIAN_FRONTEND=noninteractive
+#ARG DEBCONF_NONINTERACTIVE_SEEN=true
+ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN=true
+
+# Copy repository contents into Docker image
+COPY . /openhoi
+
+# Set working directory
+WORKDIR /openhoi
+
+# Install lsb-release
+#RUN apt-get update && apt-get install -y lsb-release sudo tzdata && apt-get clean all
+
+# Set time zone
+#RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && dpkg-reconfigure --frontend noninteractive tzdata
+
+# Run package script
+RUN chmod +x package
+ENTRYPOINT ["./package"]
