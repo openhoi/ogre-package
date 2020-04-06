@@ -87,9 +87,10 @@ if [ $OSTYPE == "linux-gnu" ]; then
             printf " $CHECKMARK Debian is supported. Using \e[1mapt-get\e[0m install system...\n"
         fi
 
-        #CODENAME=`lsb_release --codename | cut -f2`
+        CODENAME=`lsb_release --codename | cut -f2`
         INSTALLSYSTEM=${INSTALLSYSTEMS[$APTGET]}
         PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev zlib1g-dev"
+				DIST_IDENTIFIER="$DISTRO_$CODENAME"
     else
         printf " $CROSSMARK Your distribution '$DISTRO' is not supported. Aborting.\n"
         exit 1 
@@ -203,7 +204,7 @@ fi
 
 # Copy package files to new directory
 if [ "$DOCKER" == "true" ]; then
-    BINARY_NAME=ogre_${DOCKER_DIST}_${DOCKER_DIST_VERSION}_$OGRE_VERSION.deb
+    BINARY_NAME=ogre_${DIST_IDENTIFIER}_$OGRE_VERSION.deb
 		BINARY_PATH=/openhoi-package/$BINARY_NAME
 else
 		if [ -d package ]; then rm -rf package; fi
