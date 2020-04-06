@@ -80,7 +80,7 @@ if [ $OSTYPE == "linux-gnu" ]; then
 
         INSTALLSYSTEM=${INSTALLSYSTEMS[$PACMAN]}
         PACKAGES="base-devel git cmake zlib sdl2"
-    elif [ $DISTRO == "debian" ] || [ $DISTRO == "ubuntu" ]; then
+    elif [[ $DISTRO == "debian" ]] || [[ $DISTRO == "ubuntu" ]]; then
         if [ $DISTRO == "ubuntu" ]; then
             printf " $CHECKMARK Ubuntu is supported. Using \e[1mapt-get\e[0m install system...\n"
         else

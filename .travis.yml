@@ -3,7 +3,7 @@ dist: bionic
 language: minimal
 jobs:
   include:
-    - name: Debian Buster (10)
+    - name: Debian Buster (10 LTS)
       env:
         - DOCKER_DIST=debian
         - DOCKER_DIST_VERSION=buster
