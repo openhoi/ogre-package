@@ -175,12 +175,13 @@ source version
 OGRE_VERSION=$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH
 OGRE_TAG=v$OGRE_VERSION
 
-if [ -d build ]; then
-    # Reset OGRE Overlay code
-    rm -R ogre/Components/Overlay/src/imgui
+if [ "$DOCKER" != "true" ]; then
+	if [ -d build ]; then
+			# Reset OGRE Overlay code
+			rm -R ogre/Components/Overlay/src/imgui
+	fi
+	git -C ogre reset --hard $OGRE_TAG
 fi
-
-git -C ogre reset --hard $OGRE_TAG
 
 # Sync submodules
 git submodule update --init --recursive --remote
