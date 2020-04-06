@@ -212,7 +212,7 @@ if [ "$BUILD_ONLY" = "y" ]; then
     make
     sudo make install
 else
-    make package
+    make package VERBOSE=1
 fi
 
 
