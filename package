@@ -203,7 +203,7 @@ if [ "$DOCKER" == "true" ]; then
  # Patch OGRE SO version
  sed -i -E "s/(set\s*\(\s*OGRE_SOVERSION\s+)(\\\$\{OGRE_VERSION\})(\s*\))/\1\"\2-openhoi\"\3/" ogre/CMakeLists.txt
  # Ensure that no SO symlink will be created
- sed -i -E "s/(install\s*\(\s*TARGETS.+)/\1 NAMELINK_SKIP/" ogre/CMake/Utils/OgreConfigTargets.cmake
+ sed -i -E "s/(\s+LIBRARY\s+DESTINATION\s+.+)\1 NAMELINK_SKIP/g" ogre/CMake/Utils/OgreConfigTargets.cmake
 fi
 
 if [ -d build ]; then rm -rf build; fi
