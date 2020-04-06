@@ -90,7 +90,7 @@ if [ $OSTYPE == "linux-gnu" ]; then
         CODENAME=`lsb_release --codename | cut -f2`
         INSTALLSYSTEM=${INSTALLSYSTEMS[$APTGET]}
         PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev zlib1g-dev"
-				DIST_IDENTIFIER="$DISTRO_$CODENAME"
+				DIST_IDENTIFIER="${DISTRO}_$DISTRO_$CODENAME"
     else
         printf " $CROSSMARK Your distribution '$DISTRO' is not supported. Aborting.\n"
         exit 1 

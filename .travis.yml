@@ -43,7 +43,7 @@ install:
   # Create package exchange directory
   - mkdir compiled
   # Run docker image
-  - docker run -v compiled:/openhoi-package $DOCKER_IMAGE_NAME
+  - docker run -v $TRAVIS_BUILD_DIR/compiled:/openhoi-package $DOCKER_IMAGE_NAME
 before_deploy:
   - ls -lah compiled
 #  # Create tag for GitHub
