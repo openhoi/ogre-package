@@ -211,8 +211,6 @@ if [ "$BUILD_ONLY" = "y" ]; then
 else
     make package
 fi
-cat /openhoi/build/CMakeFiles/CMakeOutput.log
-
 
 
 # Copy package files to new directory
