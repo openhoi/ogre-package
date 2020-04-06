@@ -201,7 +201,7 @@ printf "$LINEBEG Compiling OGRE...\n"
 
 if [ "$DOCKER" == "true" ]; then
  # Patch OGRE SO version
- sed -i -E "s/(set\s*\(\s*OGRE_SOVERSION \${OGRE_VERSION})(\))/\1-openhoi\2/" ogre/CMakeLists.txt  
+ sed -i -E "s/(set\s*\(\s*OGRE_SOVERSION\s+)(\\\$\{OGRE_VERSION\})(\s*\))/\1\"\2-openhoi\"\3/" ogre/CMakeLists.txt  
 fi
 
 if [ -d build ]; then rm -rf build; fi
