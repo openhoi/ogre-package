@@ -5,7 +5,7 @@ if(WIN32)
 endif()
 
 set(SPECIFIC_SYSTEM_PREFERED_CPACK_GENERATOR "TGZ")
-if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
 	if(EXISTS "/etc/redhat-release")
 		file(READ "/etc/redhat-release" LINUX_ISSUE)
 	elseif(EXISTS "/etc/issue")
