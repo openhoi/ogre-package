@@ -99,7 +99,7 @@ if [ $OSTYPE == "linux-gnu" ]; then
 
         VERSION=`lsb_release --release | cut -f2`
         INSTALLSYSTEM=${INSTALLSYSTEMS[$YUM]}
-        PACKAGES="git cmake"
+        PACKAGES="git cmake freetype-devel freeimage-devel SDL2-devel libX11-devel zlib-devel"
         DIST_IDENTIFIER="${DISTRO}_$DISTRO_$VERSION"
 				PACKAGE_FILETYPE=".rpm"
     else
