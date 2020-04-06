@@ -6,6 +6,9 @@ COPY . /openhoi
 # Set working directory
 WORKDIR /openhoi
 
+# Install lsb-release
+RUN yum -y update && yum -y install redhat-lsb && package-cleanup --leaves --all
+
 # Run package script
 RUN chmod +x package
 ENTRYPOINT ["./package"]

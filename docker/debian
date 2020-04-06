@@ -12,7 +12,7 @@ COPY . /openhoi
 # Set working directory
 WORKDIR /openhoi
 
-# Install lsb-release
+# Install required dependencies
 RUN apt-get update && apt-get install -y lsb-release sudo && apt-get clean
 
 # Run package script
