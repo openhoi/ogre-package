@@ -7,7 +7,7 @@ COPY . /openhoi
 WORKDIR /openhoi
 
 # Install lsb-release
-RUN yum -y update && yum -y install redhat-lsb && package-cleanup --leaves --all
+RUN yum -y update && yum -y install redhat-lsb yum-utils && package-cleanup --leaves --all
 
 # Run package script
 RUN chmod +x package
