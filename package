@@ -184,7 +184,7 @@ if [ "$DOCKER" != "true" ]; then
 fi
 
 # Sync submodules
-git submodule update --init --recursive --remote
+git submodule update --init --recursive
 
 # Link imgui sources with OGRE Overlay
 rm -rf ogre/Components/Overlay/src/imgui
