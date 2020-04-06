@@ -5,13 +5,23 @@
 This repository holds scripts to prebuild OGRE for our *NIX and Windows builds. Supported OS:
 
 * Linux x64
+  * Debian Buster (10 LTS)
   * Ubuntu Bionic Beaver (18.04 LTS)
   * Ubuntu Disco Dingo (19.04)
   * Ubuntu Eoan Ermine (19.10)
   * Ubuntu Focal Fossa (20.04 LTS)
+  * Fedora 31
 
 * Windows x64
   * Windows 10
+
+## ToDo's when creating a new branch
+
+A new branch will trigger an automatic build for all supported OS's. Therefore, the branch name must be in the format **vXX.YY.ZZ** where XX.YY.ZZ is the desired OGRE version, e.g. **v1.12.5**. Inside the new branch, do the following:
+
+* Update *version* file to match version in branch name
+* Update *ogre* submodule to corresponding OGRE tag
+* Update *imgui* submodule to corresponding ImGui tag/branch
 
 ## Disclaimer
 
