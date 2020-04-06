@@ -200,8 +200,8 @@ ln -s imgui ogre/Components/Overlay/src/imgui
 printf "$LINEBEG Compiling OGRE...\n"
 
 if [ "$DOCKER" == "true" ]; then
- # Patch OGRE version
- sed -i -E "s/(project\s*\(\s*OGRE\s+VERSION\s+)([0-9]+\.[0-9]+\.[0-9]+)(\))/\1\2\3\nset(PROJECT_VERSION \2-openhoi)\nset(OGRE_VERSION \2-openhoi)/" ogre/CMakeLists.txt  
+ # Patch OGRE SO version
+ sed -i -E "s/(set\s*\(\s*OGRE_SOVERSION \${OGRE_VERSION})(\))/\1-openhoi\2/" ogre/CMakeLists.txt  
 fi
 
 if [ -d build ]; then rm -rf build; fi
