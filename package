@@ -57,7 +57,7 @@ BUILD_ONLY=$1
 # Then, check for the current OS type and define build/packaging dependencies
 printf "$LINEBEG Checking for operating system type...\n"
 
-INSTALLSYSTEMS=(PACMAN APTGET HOMEBREW PKG)
+INSTALLSYSTEMS=(PACMAN APTGET HOMEBREW PKG YUM)
 isa=${#INSTALLSYSTEMS[@]}
 for ((i=0; i < $isa; i++)); do
     ISE_NAME=${INSTALLSYSTEMS[i]}
@@ -80,6 +80,7 @@ if [ $OSTYPE == "linux-gnu" ]; then
 
         INSTALLSYSTEM=${INSTALLSYSTEMS[$PACMAN]}
         PACKAGES="base-devel git cmake zlib sdl2"
+        DIST_IDENTIFIER="arch_latest"
     elif [[ $DISTRO == "debian" ]] || [[ $DISTRO == "ubuntu" ]]; then
         if [ $DISTRO == "ubuntu" ]; then
             printf " $CHECKMARK Ubuntu is supported. Using \e[1mapt-get\e[0m install system...\n"
@@ -90,7 +91,14 @@ if [ $OSTYPE == "linux-gnu" ]; then
         CODENAME=`lsb_release --codename | cut -f2`
         INSTALLSYSTEM=${INSTALLSYSTEMS[$APTGET]}
         PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev zlib1g-dev"
-				DIST_IDENTIFIER="${DISTRO}_$DISTRO_$CODENAME"
+        DIST_IDENTIFIER="${DISTRO}_$DISTRO_$CODENAME"
+    elif [[ $DISTRO == "fedora" ]]; then
+        printf " $CHECKMARK Fedora is supported. Using \e[1yum\e[0m install system...\n"
+
+        CODENAME=`lsb_release --codename | cut -f2`
+        INSTALLSYSTEM=${INSTALLSYSTEMS[$YUM]}
+        PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev zlib1g-dev"
+        DIST_IDENTIFIER="${DISTRO}_$DISTRO_$CODENAME"
     else
         printf " $CROSSMARK Your distribution '$DISTRO' is not supported. Aborting.\n"
         exit 1 
@@ -136,7 +144,7 @@ if [ $INSTALLSYSTEM ]; then
         sudo apt-get update -qy
         sudo apt-get upgrade -qy
         sudo apt-get install -qy --no-install-recommends $PACKAGES
-	    sudo apt-get clean
+	      sudo apt-get clean
     elif [ $INSTALLSYSTEM == ${INSTALLSYSTEMS[$PKG]} ]; then
         sudo freebsd-update fetch --not-running-from-cron
         sudo freebsd-update install --not-running-from-cron
@@ -148,6 +156,10 @@ if [ $INSTALLSYSTEM ]; then
         do
             brew ls --versions $i && brew upgrade $i || brew install $i
         done
+    elif [ $INSTALLSYSTEM == ${INSTALLSYSTEMS[$YUM]} ]; then
+        sudo yum -y update
+        sudo yum -y install $PACKAGES
+        sudo package-cleanup --leaves --all
     fi
 
     printf " $CHECKMARK Finished! Please check the above command line output in order to verify that everything was okay.\n"

@@ -23,6 +23,10 @@ jobs:
       env:
         - DOCKER_DIST=ubuntu
         - DOCKER_DIST_VERSION=focal
+    - name: Fedora (31)
+      env:
+        - DOCKER_DIST=fedora
+        - DOCKER_DIST_VERSION=31
 notifications:
   email: false
 branches:

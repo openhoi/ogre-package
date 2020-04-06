@@ -13,7 +13,7 @@ COPY . /openhoi
 WORKDIR /openhoi
 
 # Install lsb-release
-RUN apt-get update && apt-get install -y lsb-release sudo && apt-get clean all
+RUN apt-get update && apt-get install -y lsb-release sudo && apt-get clean
 
 # Run package script
 RUN chmod +x package

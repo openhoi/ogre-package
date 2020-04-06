@@ -1,0 +1,11 @@
+FROM fedora:DOCKER_DIST_VERSION
+
+# Copy repository contents into Docker image
+COPY . /openhoi
+
+# Set working directory
+WORKDIR /openhoi
+
+# Run package script
+RUN chmod +x package
+ENTRYPOINT ["./package"]
