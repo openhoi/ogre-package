@@ -1,6 +1,7 @@
 [submodule "ogre"]
 	path = ogre
-	url = https://github.com/OGRECave/ogre
+	url = https://github.com/OGRECave/ogre-next
+	branch = v2-1
 	ignore = dirty
 [submodule "imgui"]
 	path = imgui
