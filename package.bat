@@ -141,7 +141,7 @@ set BUILD_ONLY=%1
 @rem Update submodules
 echo %LINEBEG% Cleanup and preparations...
 
-git submodule update --init --recursive --remote
+git submodule update --init --recursive
 
 
 
