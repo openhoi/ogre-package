@@ -218,28 +218,34 @@ cmake -DOGRE_BUILD_TESTS=OFF -DOGRE_BUILD_SAMPLES=OFF -DOGRE_INSTALL_SAMPLES=OFF
       -DOGRE_BUILD_PLUGIN_DOT_SCENE=OFF -DOGRE_BUILD_COMPONENT_PAGING=OFF -DOGRE_BUILD_COMPONENT_TERRAIN=OFF -DOGRE_BUILD_COMPONENT_MESHLODGENERATOR=OFF \
       -DOGRE_BUILD_COMPONENT_VOLUME=OFF -DOGRE_BUILD_COMPONENT_BITES=OFF -DOGRE_BUILD_RENDERSYSTEM_GL=ON -DOGRE_STATIC=OFF -DOGRE_BUILD_COMPONENT_OVERLAY_IMGUI=ON \
       -DOpenGL_GL_PREFERENCE=LEGACY -DOGRE_BUILD_DEPENDENCIES=OFF -DCMAKE_BUILD_TYPE=Release ../cmake/
-if [ "$BUILD_ONLY" = "y" ]; then
-    make
+make
+if [ "$BUILD_ONLY" == "y" ]; then
     sudo make install
 else
+    rm ogre/bin/*.cfg
+    rm ogre/lib/*.so
     make package VERBOSE=1
 fi
 
 
-# Copy package files to new directory
-if [ "$DOCKER" == "true" ]; then
-    BINARY_NAME=ogre_${DIST_IDENTIFIER}_$OGRE_VERSION$PACKAGE_FILETYPE
-    BINARY_PATH=/openhoi-package/$BINARY_NAME
-else
-    if [ -d package ]; then rm -rf package; fi
-    mkdir package
-    BINARY_NAME=ogre_$OGRE_VERSION$PACKAGE_FILETYPE
-    BINARY_PATH=package/$BINARY_NAME
-fi
-printf "$LINEBEG Copying OGRE binary to $BINARY_PATH...\n"
-cp ${PACKAGE_FILENAME/\%VERSION\%/$OGRE_VERSION} $BINARY_PATH
-cd ..
 
+# Copy package files to new directory
+if [ "$BUILD_ONLY" == "y" ]; then
+  cd ..
+else
+  if [ "$DOCKER" == "true" ]; then
+      BINARY_NAME=ogre_${DIST_IDENTIFIER}_$OGRE_VERSION$PACKAGE_FILETYPE
+      BINARY_PATH=/openhoi-package/$BINARY_NAME
+  else
+      if [ -d package ]; then rm -rf package; fi
+      mkdir package
+      BINARY_NAME=ogre_$OGRE_VERSION$PACKAGE_FILETYPE
+      BINARY_PATH=package/$BINARY_NAME
+  fi
+  printf "$LINEBEG Copying OGRE binary to $BINARY_PATH...\n"
+  cp ${PACKAGE_FILENAME/\%VERSION\%/$OGRE_VERSION} $BINARY_PATH
+  cd ..
+fi
 
 
 
