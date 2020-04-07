@@ -194,6 +194,8 @@ robocopy "%CWD%\ogre\build\Dependencies\lib" "%CWD%\build\sdl2\lib" SDL2.lib SDL
 robocopy "%CWD%\ogre\build\Dependencies\bin" "%CWD%\build\sdl2\bin" SDL2.dll
 
 
+
+
 @rem PACKAGE
 cd %CWD%\build
 @rd /s /q package 2>nul
