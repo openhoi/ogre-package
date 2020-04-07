@@ -224,7 +224,7 @@ if [ "$BUILD_ONLY" == "y" ]; then
 else
     rm ogre/bin/*.cfg
     rm ogre/lib/*.so
-    ninja package VERBOSE=1
+    ninja package
 fi
 
 
