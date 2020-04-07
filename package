@@ -36,7 +36,7 @@ CWD=$PWD
 # At first, ensure that we are not root as some commands we execute are not recommended
 # to be called with root permissions. This check won't be performed in case we are inside Docker!
 if [ -f /.dockerenv ]; then
-		DOCKER="true"
+    DOCKER="true"
     printf "$LINEBEG We are inside a Docker container!\n"
 else
     if [[ $(id -u) -eq 0 ]]; then
@@ -64,7 +64,8 @@ for ((i=0; i < $isa; i++)); do
     declare -r ${ISE_NAME}=$i
 done
 
-PACKAGE_FILETYPE=".tar.tg"
+PACKAGE_FILETYPE=".tar.gz"
+PACKAGE_FILENAME="ogre_%VERSION%$PACKAGE_FILETYPE"
 if [ $OSTYPE == "linux-gnu" ]; then
     # Linux
     printf " $CHECKMARK Linux is supported, but we need to check for your installed distribution...\n"
@@ -93,7 +94,8 @@ if [ $OSTYPE == "linux-gnu" ]; then
         INSTALLSYSTEM=${INSTALLSYSTEMS[$APTGET]}
         PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev zlib1g-dev"
         DIST_IDENTIFIER="${DISTRO}_$DISTRO_$CODENAME"
-				PACKAGE_FILETYPE=".deb"
+        PACKAGE_FILETYPE=".deb"
+        PACKAGE_FILENAME="ogre_%VERSION%$PACKAGE_FILETYPE"
     elif [[ $DISTRO == "fedora" ]]; then
         printf " $CHECKMARK Fedora is supported. Using \e[1yum\e[0m install system...\n"
 
@@ -101,7 +103,8 @@ if [ $OSTYPE == "linux-gnu" ]; then
         INSTALLSYSTEM=${INSTALLSYSTEMS[$YUM]}
         PACKAGES="git cmake rpm-build freetype-devel freeimage-devel SDL2-devel libX11-devel zlib-devel"
         DIST_IDENTIFIER="${DISTRO}_$DISTRO_$VERSION"
-				PACKAGE_FILETYPE=".src.rpm"
+        PACKAGE_FILETYPE=".rpm"
+        PACKAGE_FILENAME="ogre-%VERSION%-1.src$PACKAGE_FILETYPE"
     else
         printf " $CROSSMARK Your distribution '$DISTRO' is not supported. Aborting.\n"
         exit 1 
@@ -147,7 +150,7 @@ if [ $INSTALLSYSTEM ]; then
         sudo apt-get update -qy
         sudo apt-get upgrade -qy
         sudo apt-get install -qy --no-install-recommends $PACKAGES
-	      sudo apt-get clean
+        sudo apt-get clean
     elif [ $INSTALLSYSTEM == ${INSTALLSYSTEMS[$PKG]} ]; then
         sudo freebsd-update fetch --not-running-from-cron
         sudo freebsd-update install --not-running-from-cron
@@ -179,11 +182,11 @@ OGRE_VERSION=$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH
 OGRE_TAG=v$OGRE_VERSION
 
 if [ "$DOCKER" != "true" ]; then
-	if [ -d build ]; then
-			# Reset OGRE Overlay code
-			rm -R ogre/Components/Overlay/src/imgui
-	fi
-	git -C ogre reset --hard $OGRE_TAG
+  if [ -d build ]; then
+      # Reset OGRE Overlay code
+      rm -R ogre/Components/Overlay/src/imgui
+  fi
+  git -C ogre reset --hard $OGRE_TAG
 fi
 
 # Sync submodules
@@ -226,15 +229,15 @@ fi
 # Copy package files to new directory
 if [ "$DOCKER" == "true" ]; then
     BINARY_NAME=ogre_${DIST_IDENTIFIER}_$OGRE_VERSION$PACKAGE_FILETYPE
-		BINARY_PATH=/openhoi-package/$BINARY_NAME
+    BINARY_PATH=/openhoi-package/$BINARY_NAME
 else
-		if [ -d package ]; then rm -rf package; fi
-		mkdir package
+    if [ -d package ]; then rm -rf package; fi
+    mkdir package
     BINARY_NAME=ogre_$OGRE_VERSION$PACKAGE_FILETYPE
-		BINARY_PATH=package/$BINARY_NAME
+    BINARY_PATH=package/$BINARY_NAME
 fi
 printf "$LINEBEG Copying OGRE binary to $BINARY_PATH...\n"
-cp ogre_$OGRE_VERSION$PACKAGE_FILETYPE $BINARY_PATH
+cp ${PACKAGE_FILENAME/\%VERSION\%/$OGRE_VERSION} $BINARY_PATH
 cd ..
 
 
