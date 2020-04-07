@@ -81,7 +81,7 @@ if [ $OSTYPE == "linux-gnu" ]; then
         printf " $CHECKMARK Arch Linux is supported. Using \e[1mpacman\e[0m install system...\n"
 
         INSTALLSYSTEM=${INSTALLSYSTEMS[$PACMAN]}
-        PACKAGES="base-devel git cmake sdl2"
+        PACKAGES="base-devel git cmake sdl2 ninja"
         DIST_IDENTIFIER="arch_latest"
     elif [[ $DISTRO == "debian" ]] || [[ $DISTRO == "ubuntu" ]]; then
         if [ $DISTRO == "ubuntu" ]; then
@@ -92,7 +92,7 @@ if [ $OSTYPE == "linux-gnu" ]; then
 
         CODENAME=`lsb_release --codename | cut -f2`
         INSTALLSYSTEM=${INSTALLSYSTEMS[$APTGET]}
-        PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev"
+        PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev ninja-build"
         DIST_IDENTIFIER="${DISTRO}_$DISTRO_$CODENAME"
         PACKAGE_FILETYPE=".deb"
         PACKAGE_FILENAME="ogre_%VERSION%$PACKAGE_FILETYPE"
@@ -101,7 +101,7 @@ if [ $OSTYPE == "linux-gnu" ]; then
 
         VERSION=`lsb_release --release | cut -f2`
         INSTALLSYSTEM=${INSTALLSYSTEMS[$YUM]}
-        PACKAGES="git cmake rpm-build freetype-devel freeimage-devel SDL2-devel libX11-devel"
+        PACKAGES="git cmake rpm-build freetype-devel freeimage-devel SDL2-devel libX11-devel ninja-build"
         DIST_IDENTIFIER="${DISTRO}_$DISTRO_$VERSION"
         PACKAGE_FILETYPE=".rpm"
         PACKAGE_FILENAME="ogre-%VERSION%-1.src$PACKAGE_FILETYPE"
@@ -217,7 +217,7 @@ cmake -DOGRE_USE_BOOST=0 -DOGRE_CONFIG_THREAD_PROVIDER=stl -DOGRE_CONFIG_THREADS
       -DOGRE_BUILD_COMPONENT_HLMS_UNLIT_MOBILE=OFF -DOGRE_BUILD_COMPONENT_MESHLODGENERATOR=ON -DOGRE_BUILD_COMPONENT_OVERLAY=ON DOGRE_BUILD_COMPONENT_OVERLAY_IMGUI=ON \
       -DOGRE_BUILD_COMPONENT_PAGING=OFF -DOGRE_BUILD_PLUGIN_PFX=ON -DOGRE_BUILD_RENDERSYSTEM_GL3PLUS=ON -DOGRE_BUILD_RENDERSYSTEM_GLES=ON -DOGRE_BUILD_SAMPLES2=OFF \
       -DOGRE_BUILD_TESTS=OFF -DOGRE_BUILD_TOOLS=OFF -DOGRE_CONFIG_ENABLE_JSON=ON -DOGRE_INSTALL_DOCS=OFF -DOGRE_INSTALL_SAMPLES=OFF -DOGRE_INSTALL_TOOLS=OFF \
-      -DOGRE_LEGACY_ANIMATION=ON -DOGRE_SIMD_NEON=ON -DOGRE_SIMD_SSE2=ON -DOGRE_STATIC=OFF -DCMAKE_BUILD_TYPE=Release ../cmake/
+      -DOGRE_LEGACY_ANIMATION=ON -DOGRE_SIMD_NEON=ON -DOGRE_SIMD_SSE2=ON -DOGRE_STATIC=OFF -DCMAKE_BUILD_TYPE=Release -G Ninja ../cmake/
 make
 if [ "$BUILD_ONLY" == "y" ]; then
     sudo make install
