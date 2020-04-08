@@ -157,7 +157,7 @@ if not "%BUILD_ONLY%" == "y" (
 
 echo %LINEBEG% Compiling OGRE...
 set OGRE_VERSION=%VERSION_MAJOR%.%VERSION_MINOR%.%VERSION_PATCH%
-if /I "%CI%" eq "true" (
+if /I "%CI%" == "true" (
   setx OGRE_VERSION "%VERSION_MAJOR%.%VERSION_MINOR%.%VERSION_PATCH%"
 )
 set OGRE_TAG=v%OGRE_VERSION%
