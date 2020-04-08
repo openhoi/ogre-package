@@ -13,13 +13,14 @@ build_script:
 after_build:
   - ps: Remove-Item *.7z
   - ps: Copy-Item build/package/*.7z -Destination .
+  - set OGRE_VERSION=%APPVEYOR_REPO_BRANCH:~1%
 notifications:
   - provider: Email 
     on_build_success: false 
     on_build_failure: false 
     on_build_status_changed: false
 artifacts:
-  - path: ogre_msvc_%APPVEYOR_REPO_BRANCH:~1%.7z
+  - path: ogre_msvc_%OGRE_VERSION%.7z
     name: MSVC
 deploy:
   - provider: S3
