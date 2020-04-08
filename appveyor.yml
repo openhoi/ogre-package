@@ -19,7 +19,7 @@ notifications:
     on_build_failure: false 
     on_build_status_changed: false
 artifacts:
-  - path: ogre_msvc_%OGRE_VERSION%.7z
+  - path: ogre_msvc_%APPVEYOR_REPO_BRANCH:~1%.7z
     name: MSVC
 deploy:
   - provider: S3
