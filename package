@@ -220,8 +220,8 @@ ninja
 if [ "$BUILD_ONLY" == "y" ]; then
     sudo ninja install
 else
-    rm ogre/bin/*.cfg
-    rm ogre/lib/*.so
+    #rm $CWD/ogre/bin/*.cfg
+    #rm $CWD/ogre/lib/*.so
     ninja package
 fi
 
