@@ -1,4 +1,5 @@
 @echo off
+setlocal EnableDelayedExpansion
 
 @rem ##############################################################################
 @rem ##                                                                          ##
@@ -23,7 +24,6 @@ set CWD=%CD%
 @rem to be called with root permissions
 echo %LINEBEG% Checking for Windows environment...
 
-setlocal
 for /f "tokens=4-5 delims=. " %%i in ('ver') do set VERSION=%%i.%%j
 if "%VERSION%" == "10.0" (
     echo %CHECKMARK% Windows 10 is supported.
@@ -31,7 +31,6 @@ if "%VERSION%" == "10.0" (
     echo %CROSSMARK% Your Windows Version %VERSION% is not supported. Aborting. You may have to install all dependencies manually.
     goto end
 )
-endlocal
 
 if "%PROGRAMFILES%" == "C:\Program Files" (
     echo %CHECKMARK% 64 bit is supported.
