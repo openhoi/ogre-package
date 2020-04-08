@@ -194,7 +194,7 @@ git submodule update --init --recursive
 
 # Link imgui sources with OGRE Overlay
 rm -rf ogre/Components/Overlay/src/imgui
-ln -s imgui ogre/Components/Overlay/src/imgui
+ln -s $CWD/imgui ogre/Components/Overlay/src/imgui
 
 
 
