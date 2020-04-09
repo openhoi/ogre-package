@@ -177,6 +177,10 @@ robocopy "%CWD%\ogre\build\sdk\lib" "%CWD%\build\ogre3d\lib" OgreMain.lib OgreOv
 robocopy "%CWD%\ogre\build\sdk\lib\OGRE" "%CWD%\build\ogre3d\lib" Codec_STBI.lib Plugin_ParticleFX.lib RenderSystem_Direct3D11.lib RenderSystem_GL.lib RenderSystem_GL3Plus.lib
 robocopy "%CWD%\ogre\build\sdk\bin" "%CWD%\build\ogre3d\bin" Codec_STBI.dll OgreBites.dll OgreMain.dll OgreOverlay.dll OgreProperty.dll OgreRTShaderSystem.dll Plugin_ParticleFX.dll RenderSystem_Direct3D11.dll RenderSystem_GL.dll RenderSystem_GL3Plus.dll
 robocopy "%CWD%\ogre\build\Dependencies\include\SDL2" "%CWD%\build\sdl2\include\SDL2" /mir
+robocopy "%CWD%\ogre\build\sdk\Media\RTShaderLib\materials" "%CWD%\build\ogre3d\materials"
+robocopy "%CWD%\ogre\build\sdk\Media\RTShaderLib\GLSL" "%CWD%\build\ogre3d\materials\glsl"
+robocopy "%CWD%\ogre\build\sdk\Media\RTShaderLib\HLSL_Cg" "%CWD%\build\ogre3d\materials\hlsl"
+robocopy "%CWD%\ogre\build\sdk\Media\ShadowVolume" "%CWD%\build\ogre3d\materials\hlsl" *.hlsl
 robocopy "%CWD%\ogre\build\Dependencies\lib" "%CWD%\build\sdl2\lib" SDL2.lib SDL2main.lib
 robocopy "%CWD%\ogre\build\Dependencies\bin" "%CWD%\build\sdl2\bin" SDL2.dll
 @rem Build Debug
