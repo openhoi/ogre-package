@@ -92,7 +92,7 @@ if [ $OSTYPE == "linux-gnu" ]; then
 
         CODENAME=`lsb_release --codename | cut -f2`
         INSTALLSYSTEM=${INSTALLSYSTEMS[$APTGET]}
-        PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian libfreetype6-dev libfreeimage-dev libsdl2-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev ninja-build"
+        PACKAGES="git build-essential cmake dput dh-make fakeroot devscripts lintian libfreetype6-dev libfreeimage-dev libsdl2-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxt-dev libxaw7-dev ninja-build"
         DIST_IDENTIFIER="${DISTRO}_$DISTRO_$CODENAME"
         PACKAGE_FILETYPE=".deb"
         PACKAGE_FILENAME="ogre_%VERSION%$PACKAGE_FILETYPE"
@@ -101,7 +101,7 @@ if [ $OSTYPE == "linux-gnu" ]; then
 
         VERSION=`lsb_release --release | cut -f2`
         INSTALLSYSTEM=${INSTALLSYSTEMS[$YUM]}
-        PACKAGES="git cmake rpm-build freetype-devel freeimage-devel SDL2-devel libXaw-devel ninja-build"
+        PACKAGES="git cmake rpm-build freetype-devel freeimage-devel SDL2-devel libX11-devel libXaw-devel mesa-libGL-devel ninja-build"
         DIST_IDENTIFIER="${DISTRO}_$DISTRO_$VERSION"
         PACKAGE_FILETYPE=".rpm"
         PACKAGE_FILENAME="ogre_%VERSION%$PACKAGE_FILETYPE"
