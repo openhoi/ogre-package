@@ -83,9 +83,11 @@ if [ $OSTYPE == "linux-gnu" ]; then
         INSTALLSYSTEM=${INSTALLSYSTEMS[$PACMAN]}
         PACKAGES="base-devel git cmake sdl2 ninja"
         DIST_IDENTIFIER="arch_latest"
-    elif [[ $DISTRO == "debian" ]] || [[ $DISTRO == "ubuntu" ]]; then
-        if [ $DISTRO == "ubuntu" ]; then
+    elif [[ $DISTRO == "debian" ]] || [[ $DISTRO == "ubuntu" ]] || [[ $DISTRO == "steamos" ]]; then
+        if [[ $DISTRO == "ubuntu" ]]; then
             printf " $CHECKMARK Ubuntu is supported. Using \e[1mapt-get\e[0m install system...\n"
+        elif [[ $DISTRO == "steamos" ]]; then
+            printf " $CHECKMARK SteamOS is supported. Using \e[1mapt-get\e[0m install system...\n"
         else
             printf " $CHECKMARK Debian is supported. Using \e[1mapt-get\e[0m install system...\n"
         fi
