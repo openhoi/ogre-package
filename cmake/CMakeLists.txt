@@ -47,4 +47,15 @@ set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}_${MAJOR_VERSION}.${MIN
 set(CPACK_DEBIAN_PACKAGE_LICENSE "mit")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "${SPECIFIC_SYSTEM_REQUIRED_CPACK_DEB_DEPENDENCIES}")
 
+
+if(UNIX AND CMAKE_GENERATOR STREQUAL "Ninja")
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fcolor-diagnostics")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fcolor-diagnostics")
+    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fdiagnostics-color")
+    endif()
+endif()
+
 add_subdirectory(../ogre ogre)
