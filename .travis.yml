@@ -7,10 +7,10 @@ jobs:
       env:
         - DOCKER_DIST=debian
         - DOCKER_DIST_VERSION=buster
-    #- name: SteamOS (2.195)
-    #  env:
-    #    - DOCKER_DIST=steamos
-    #    - DOCKER_DIST_VERSION=2.195
+    - name: SteamOS (2.195)
+      env:
+        - DOCKER_DIST=steamos
+        - DOCKER_DIST_VERSION=2.195
     - name: Ubuntu Bionic Beaver (18.04 LTS)
       env:
         - DOCKER_DIST=ubuntu
