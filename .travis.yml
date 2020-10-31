@@ -15,18 +15,26 @@ jobs:
       env:
         - DOCKER_DIST=ubuntu
         - DOCKER_DIST_VERSION=bionic
-    - name: Ubuntu Eoan Ermine (19.10)
-      env:
-        - DOCKER_DIST=ubuntu
-        - DOCKER_DIST_VERSION=eoan
     - name: Ubuntu Focal Fossa (20.04 LTS)
       env:
         - DOCKER_DIST=ubuntu
         - DOCKER_DIST_VERSION=focal
+    - name: Ubuntu Groovy Gorilla (20.10)
+      env:
+        - DOCKER_DIST=ubuntu
+        - DOCKER_DIST_VERSION=groovy
     - name: Fedora (31)
       env:
         - DOCKER_DIST=fedora
         - DOCKER_DIST_VERSION=31
+    - name: Fedora (32)
+      env:
+        - DOCKER_DIST=fedora
+        - DOCKER_DIST_VERSION=32
+    - name: Fedora (33)
+      env:
+        - DOCKER_DIST=fedora
+        - DOCKER_DIST_VERSION=33
 notifications:
   email: false
 branches:
