@@ -7,10 +7,12 @@ This repository holds scripts to prebuild OGRE for our *NIX and Windows builds. 
 * Linux x64
   * Debian Buster (10 LTS)
   * Ubuntu Bionic Beaver (18.04 LTS)
-  * Ubuntu Disco Dingo (19.04)
   * Ubuntu Eoan Ermine (19.10)
   * Ubuntu Focal Fossa (20.04 LTS)
+  * Ubuntu Groovy Gorilla (20.10)
   * Fedora 31
+  * Fedora 32
+  * Fedora 33
 
 * Windows x64
   * Windows 10
