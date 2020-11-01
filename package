@@ -209,6 +209,9 @@ if [ "$DOCKER" == "true" ]; then
  sed -i -E "s/(set\s*\(\s*OGRE_SOVERSION\s+)(\\\$\{OGRE_VERSION\})(\s*\))/\1\"\2-openhoi\"\3/" ogre/CMakeLists.txt
 fi
 
+# Patch path to ImGui in OGRE Overlay component
+sed -i -E "s/set\s*\(\s*IMGUI_DIR\s+.*\)/set\(IMGUI_DIR "\${CMAKE_CURRENT_SOURCE_DIR}/src/imgui" CACHE PATH \"\")/" Components/Overlay/CMakeLists.txt
+
 if [ -d build ]; then rm -rf build; fi
 mkdir build
 cd build
@@ -218,7 +221,6 @@ cmake -DOGRE_BUILD_TESTS=OFF -DOGRE_BUILD_SAMPLES=OFF -DOGRE_INSTALL_SAMPLES=OFF
       -DOGRE_BUILD_PLUGIN_DOT_SCENE=OFF -DOGRE_BUILD_COMPONENT_PAGING=OFF -DOGRE_BUILD_COMPONENT_TERRAIN=OFF -DOGRE_BUILD_COMPONENT_MESHLODGENERATOR=OFF \
       -DOGRE_BUILD_COMPONENT_VOLUME=OFF -DOGRE_BUILD_COMPONENT_BITES=OFF -DOGRE_BUILD_RENDERSYSTEM_GL=ON -DOGRE_STATIC=OFF -DOGRE_BUILD_COMPONENT_OVERLAY=ON \
       -DOGRE_BUILD_COMPONENT_OVERLAY_IMGUI=ON -DOpenGL_GL_PREFERENCE=LEGACY -DOGRE_BUILD_DEPENDENCIES=OFF -DCMAKE_BUILD_TYPE=Release -G Ninja ../cmake/
-sed -i -E "s/set\(IMGUI_DIR ".*"\)/set\(IMGUI_DIR "\${CMAKE_CURRENT_SOURCE_DIR}/src/imgui" CACHE PATH "")/" ../Components/Overlay/CMakeLists.txt
 ninja
 if [ "$BUILD_ONLY" == "y" ]; then
     sudo ninja install
